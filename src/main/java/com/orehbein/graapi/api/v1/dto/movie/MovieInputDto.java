@@ -6,15 +6,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
 @Setter
-public class MovieDto {
-
-    @NotNull
-    private Long id;
+public class MovieInputDto {
 
     @NotNull
     private Integer productionYear;
@@ -23,12 +20,12 @@ public class MovieDto {
     private String title;
 
     @NotNull
-    private Boolean winner;
+    private boolean winner;
 
     @NotNull
-    private Set<StudioDto> studios;
+    private List<String> studios;
 
     @NotNull
-    private Set<ProducerDto> producers;
+    private List<String> producers;
 
 }

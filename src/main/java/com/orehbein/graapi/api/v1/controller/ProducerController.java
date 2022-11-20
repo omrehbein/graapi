@@ -1,8 +1,10 @@
 package com.orehbein.graapi.api.v1.controller;
 
+import com.orehbein.graapi.api.v1.dto.producer.MinMaxIntervalDto;
 import com.orehbein.graapi.api.v1.dto.producer.ProducerDto;
 import com.orehbein.graapi.api.v1.dto.producer.ProducerInputDto;
 import com.orehbein.graapi.domain.service.ProducerService;
+import com.orehbein.graapi.domain.service.ProducerWinnerIntervalService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,6 +25,9 @@ public class ProducerController {
     @Autowired
     ProducerService producerService;
 
+    @Autowired
+    ProducerWinnerIntervalService producerWinnerIntervalService;
+
     @GetMapping
     public List<ProducerDto> findAll() {
         return this.producerService.findAll().stream().map(p -> this.modelMapper.map(p, ProducerDto.class)).toList();
@@ -31,6 +36,11 @@ public class ProducerController {
     @GetMapping("/{id}")
     public ProducerDto findById(@PathVariable Long id) {
         return this.modelMapper.map(this.producerService.findById(id), ProducerDto.class);
+    }
+
+    @GetMapping("/minmaxinterval")
+    public MinMaxIntervalDto minMaxInterval() {
+        return this.modelMapper.map(this.producerWinnerIntervalService.minMaxInterval(), MinMaxIntervalDto.class);
     }
 
     @PostMapping

@@ -6,6 +6,8 @@ import com.orehbein.graapi.domain.entity.ProducerWinnerIntervalEntity;
 import com.orehbein.graapi.domain.repository.MovieRepository;
 import com.orehbein.graapi.domain.repository.ProducerWinnerIntervalRepository;
 import com.orehbein.graapi.domain.service.ProducerWinnerIntervalService;
+import com.orehbein.graapi.domain.service.dto.producerwinnerintervalservice.MinMaxIntervalDto;
+import com.orehbein.graapi.domain.service.dto.producerwinnerintervalservice.MinMaxIntervalRecordDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +29,7 @@ public class ProducerWinnerIntervalServiceImpl implements ProducerWinnerInterval
 
     @Override
     public void recreateProducerWinnerInterval(MovieEntity movieEntity) {
-        if (movieEntity.getWinner()) {
+        if (!movieEntity.getWinner()) {
             return;
         }
         for (ProducerEntity producerEntity : movieEntity.getProducers()) {
@@ -50,6 +52,34 @@ public class ProducerWinnerIntervalServiceImpl implements ProducerWinnerInterval
             }
 
         }
+    }
+
+    @Override
+    //@Transactional
+    public MinMaxIntervalDto minMaxInterval() {
+        final MinMaxIntervalDto minMaxIntervalDto = new MinMaxIntervalDto();
+
+        var minIntervalYears = this.producerWinnerIntervalRepository.findFirstByOrderByIntervalYears().orElseGet(() -> new ProducerWinnerIntervalEntity());
+        var maxIntervalYears = this.producerWinnerIntervalRepository.findFirstByOrderByIntervalYearsDesc().orElseGet(() -> new ProducerWinnerIntervalEntity());
+
+        List<ProducerWinnerIntervalEntity> minProducerWinnerIntervalEntitys = this.producerWinnerIntervalRepository.findAllByIntervalYears(minIntervalYears.getIntervalYears());
+        List<ProducerWinnerIntervalEntity> maxProducerWinnerIntervalEntitys = this.producerWinnerIntervalRepository.findAllByIntervalYears(maxIntervalYears.getIntervalYears());
+
+        minMaxIntervalDto.setMin( minProducerWinnerIntervalEntitys.stream().map(producerWinnerIntervalEntity -> this.getMinMaxIntervalRecordDto(producerWinnerIntervalEntity)).toList() );
+        minMaxIntervalDto.setMax( maxProducerWinnerIntervalEntitys.stream().map(producerWinnerIntervalEntity -> this.getMinMaxIntervalRecordDto(producerWinnerIntervalEntity)).toList() );
+
+
+        return minMaxIntervalDto;
+    }
+
+    private static MinMaxIntervalRecordDto getMinMaxIntervalRecordDto(ProducerWinnerIntervalEntity producerWinnerIntervalEntity) {
+        MinMaxIntervalRecordDto minMaxIntervalRecordDto = new MinMaxIntervalRecordDto();
+        minMaxIntervalRecordDto.setInterval(producerWinnerIntervalEntity.getIntervalYears());
+        minMaxIntervalRecordDto.setProducer(producerWinnerIntervalEntity.getProducer().getName());
+        minMaxIntervalRecordDto.setPreviousWin(producerWinnerIntervalEntity.getPreviousMovie().getProductionYear());
+        minMaxIntervalRecordDto.setFollowingWin(producerWinnerIntervalEntity.getFollowingMovie().getProductionYear());
+
+        return minMaxIntervalRecordDto;
     }
 
 }

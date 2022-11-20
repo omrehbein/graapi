@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;
@@ -41,6 +42,7 @@ public class CsvFileLoaderImplService {
     }
 
     @PostConstruct
+    @Transactional
     private void init(){
         final Reader reader = new InputStreamReader( this.movielistCsvInputStream(this.localFileConfig) );
         final List<CsvRecordDto> csvRecords = new CsvToBeanBuilder<CsvRecordDto>(reader)
