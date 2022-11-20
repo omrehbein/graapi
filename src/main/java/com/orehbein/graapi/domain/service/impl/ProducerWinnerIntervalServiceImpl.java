@@ -59,11 +59,11 @@ public class ProducerWinnerIntervalServiceImpl implements ProducerWinnerInterval
     public MinMaxIntervalDto minMaxInterval() {
         final MinMaxIntervalDto minMaxIntervalDto = new MinMaxIntervalDto();
 
-        var minIntervalYears = this.producerWinnerIntervalRepository.findFirstByOrderByIntervalYears().orElseGet(() -> new ProducerWinnerIntervalEntity());
-        var maxIntervalYears = this.producerWinnerIntervalRepository.findFirstByOrderByIntervalYearsDesc().orElseGet(() -> new ProducerWinnerIntervalEntity());
+        final var minIntervalYears = this.producerWinnerIntervalRepository.findFirstByOrderByIntervalYears().orElseGet(() -> new ProducerWinnerIntervalEntity());
+        final var maxIntervalYears = this.producerWinnerIntervalRepository.findFirstByOrderByIntervalYearsDesc().orElseGet(() -> new ProducerWinnerIntervalEntity());
 
-        List<ProducerWinnerIntervalEntity> minProducerWinnerIntervalEntitys = this.producerWinnerIntervalRepository.findAllByIntervalYears(minIntervalYears.getIntervalYears());
-        List<ProducerWinnerIntervalEntity> maxProducerWinnerIntervalEntitys = this.producerWinnerIntervalRepository.findAllByIntervalYears(maxIntervalYears.getIntervalYears());
+        final List<ProducerWinnerIntervalEntity> minProducerWinnerIntervalEntitys = this.producerWinnerIntervalRepository.findAllByIntervalYears(minIntervalYears.getIntervalYears());
+        final List<ProducerWinnerIntervalEntity> maxProducerWinnerIntervalEntitys = this.producerWinnerIntervalRepository.findAllByIntervalYears(maxIntervalYears.getIntervalYears());
 
         minMaxIntervalDto.setMin( minProducerWinnerIntervalEntitys.stream().map(producerWinnerIntervalEntity -> this.getMinMaxIntervalRecordDto(producerWinnerIntervalEntity)).toList() );
         minMaxIntervalDto.setMax( maxProducerWinnerIntervalEntitys.stream().map(producerWinnerIntervalEntity -> this.getMinMaxIntervalRecordDto(producerWinnerIntervalEntity)).toList() );
@@ -73,7 +73,7 @@ public class ProducerWinnerIntervalServiceImpl implements ProducerWinnerInterval
     }
 
     private static MinMaxIntervalRecordDto getMinMaxIntervalRecordDto(ProducerWinnerIntervalEntity producerWinnerIntervalEntity) {
-        MinMaxIntervalRecordDto minMaxIntervalRecordDto = new MinMaxIntervalRecordDto();
+        final MinMaxIntervalRecordDto minMaxIntervalRecordDto = new MinMaxIntervalRecordDto();
         minMaxIntervalRecordDto.setInterval(producerWinnerIntervalEntity.getIntervalYears());
         minMaxIntervalRecordDto.setProducer(producerWinnerIntervalEntity.getProducer().getName());
         minMaxIntervalRecordDto.setPreviousWin(producerWinnerIntervalEntity.getPreviousMovie().getProductionYear());
