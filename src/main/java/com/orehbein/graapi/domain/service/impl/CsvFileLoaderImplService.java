@@ -20,6 +20,8 @@ public class CsvFileLoaderImplService {
 
     public static final char SEPARATOR = ';';
     public static final String PRODUCER_SEPARATOR = ",|\\ and ";
+
+    public static final String STUDIO_SEPARATOR = ",";
     public static final String WINNER_REPRESENTATION = "yes";
 
     private final StudioService studioService;
@@ -56,7 +58,7 @@ public class CsvFileLoaderImplService {
             this.movieService.create(
                 csvRecordDto.getYear(),
                 csvRecordDto.getTitle(),
-                csvRecordDto.getStudios(),
+                this.extractStudioNames(csvRecordDto.getStudios()),
                 this.extractProducerNames(csvRecordDto.getProducers()),
                 csvRecordDto.getWinner().equalsIgnoreCase(WINNER_REPRESENTATION)
             );
@@ -65,11 +67,12 @@ public class CsvFileLoaderImplService {
     }
 
     private List<String> extractStudioNames(List<CsvRecordDto> csvRecords) {
-        final List<String> studioNames = csvRecords.stream().map(csvRecord -> csvRecord.getStudios())
-            .map(name -> name.trim())
-                .distinct()
-                    .sorted()
-                        .toList();
+        final List<String> studioNames = csvRecords.stream().flatMap(
+            csvRecord -> this.extractStudioNames(csvRecord.getStudios()).stream()
+        ).map(name -> name.trim())
+            .distinct()
+                .sorted()
+                    .toList();
         return studioNames;
     }
 
@@ -83,14 +86,22 @@ public class CsvFileLoaderImplService {
                         .toList();
         return producerNames;
     }
-
-    private List<String> extractProducerNames(String producers) {
-        return Arrays.stream(producers.split(PRODUCER_SEPARATOR)).map(name -> name.trim())
+    private List<String> extractStudioNames(String names) {
+        return Arrays.stream(names.split(STUDIO_SEPARATOR)).map(name -> name.trim())
             .filter(name -> StringUtils.hasText(name))
                 .distinct()
                     .sorted()
                         .toList();
     }
+
+    private List<String> extractProducerNames(String names) {
+        return Arrays.stream(names.split(PRODUCER_SEPARATOR)).map(name -> name.trim())
+            .filter(name -> StringUtils.hasText(name))
+                .distinct()
+                    .sorted()
+                        .toList();
+    }
+
 
 
     private InputStream movielistCsvInputStream(RessorceFileProperties localFileConfig)  {

@@ -34,9 +34,9 @@ public class MovieEntity implements Serializable {
     @Column(name="winner", nullable=false)
     private Boolean winner;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "studio_id", referencedColumnName = "id", nullable = false, insertable = true, updatable = true)
-    private StudioEntity studio;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "movie_studios", referencedColumnName = "id", nullable = false, insertable = true, updatable = true)
+    private Set<StudioEntity> studios = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "movie_producer", joinColumns = @JoinColumn(name = "movie_id"), inverseJoinColumns = @JoinColumn(name = "producer_id"))
