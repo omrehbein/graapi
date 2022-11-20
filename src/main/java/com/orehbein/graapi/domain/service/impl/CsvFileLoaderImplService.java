@@ -1,7 +1,7 @@
 package com.orehbein.graapi.domain.service.impl;
 
 import com.opencsv.bean.CsvToBeanBuilder;
-import com.orehbein.graapi.core.configuration.LocalFileConfig;
+import com.orehbein.graapi.core.properties.RessorceFileProperties;
 import com.orehbein.graapi.domain.service.MovieService;
 import com.orehbein.graapi.domain.service.ProducerService;
 import com.orehbein.graapi.domain.service.StudioService;
@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
-public class FileLoaderImplService {
+public class CsvFileLoaderImplService {
 
     public static final char SEPARATOR = ';';
     public static final String PRODUCER_SEPARATOR = ",|\\ and ";
@@ -28,10 +28,10 @@ public class FileLoaderImplService {
 
     private final MovieService movieService;
 
-    private final LocalFileConfig localFileConfig;
+    private final RessorceFileProperties localFileConfig;
 
     @Autowired
-    public FileLoaderImplService(final StudioService studioService, final ProducerService producerService, final MovieService movieService, final LocalFileConfig localFileConfig) {
+    public CsvFileLoaderImplService(final StudioService studioService, final ProducerService producerService, final MovieService movieService, final RessorceFileProperties localFileConfig) {
         this.studioService = studioService;
         this.producerService = producerService;
         this.movieService = movieService;
@@ -49,11 +49,11 @@ public class FileLoaderImplService {
         final List<String> studioNames = this.extractStudioNames(csvRecords);
         final List<String> producerNames = this.extractProducerNames(csvRecords);
 
-        this.studioService.createStudio(studioNames);
-        this.producerService.createProducer(producerNames);
+        this.studioService.create(studioNames);
+        this.producerService.create(producerNames);
 
         for (CsvRecordDto csvRecordDto : csvRecords){
-            this.movieService.createMovieEntity(
+            this.movieService.create(
                 csvRecordDto.getYear(),
                 csvRecordDto.getTitle(),
                 csvRecordDto.getStudios(),
@@ -93,11 +93,11 @@ public class FileLoaderImplService {
     }
 
 
-    private InputStream movielistCsvInputStream(LocalFileConfig localFileConfig)  {
+    private InputStream movielistCsvInputStream(RessorceFileProperties localFileConfig)  {
         try{
             return localFileConfig.getMovielistCsv().getInputStream();
         } catch (IOException e){
-            throw new RuntimeException("Erro ao carregar arquivo");//TODO criar exception
+            throw new RuntimeException(e);
         }
     }
 

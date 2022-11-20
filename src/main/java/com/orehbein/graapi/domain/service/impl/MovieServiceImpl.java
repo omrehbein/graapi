@@ -35,7 +35,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public MovieEntity createMovieEntity(Integer year, String title, StudioEntity studioEntity, Set<ProducerEntity> producerEntitys, boolean winner) {
+    public MovieEntity create(Integer year, String title, StudioEntity studioEntity, Set<ProducerEntity> producerEntitys, boolean winner) {
 
         final MovieEntity movieEntity = new MovieEntity();
         movieEntity.setProductionYear(year);
@@ -51,10 +51,10 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public MovieEntity createMovieEntity(final Integer year, final String title, final String studioName, final List<String> producerNames, final boolean winner) {
+    public MovieEntity create(final Integer year, final String title, final String studioName, final List<String> producerNames, final boolean winner) {
         final StudioEntity studioEntity = this.studioRepository.findByName(studioName).orElseThrow(() -> new RuntimeException("Studio not fond"));
         final List<ProducerEntity> producerEntitys = producerNames.stream().map(name -> this.producerRepository.findByName(name).orElseThrow(() -> new RuntimeException("Producer not fond"))).toList();
-        final MovieEntity movieEntity = this.createMovieEntity(year, title, studioEntity, new HashSet<>(producerEntitys), winner);
+        final MovieEntity movieEntity = this.create(year, title, studioEntity, new HashSet<>(producerEntitys), winner);
 
         this.producerWinnerIntervalService.recreateProducerWinnerInterval(movieEntity);
 

@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Set;
 
 public interface MovieService {
-    MovieEntity createMovieEntity(Integer year, String title, StudioEntity studioEntity, Set<ProducerEntity> producerEntitys, boolean winner);
+    MovieEntity create(Integer year, String title, StudioEntity studioEntity, Set<ProducerEntity> producerEntitys, boolean winner);
 
-    MovieEntity createMovieEntity(Integer year, String title, String studioName, List<String> producerNames, boolean winner);
+    MovieEntity create(Integer year, String title, String studioName, List<String> producerNames, boolean winner);
 
 }
