@@ -4,12 +4,12 @@ Projeto Golden Raspberry Awards API foi desenvolvido para mostrar e testar habil
 O projeto:
 
     - O web service RESTful implementa o nível 2 de maturidade de Richardson;
+    - Trata corretamente exceções retornando status code corretamente;
     - Implementa testes de integração do controller garantindo que os dados obtidos estão de acordo com os dados fornecidos;
     - O banco de dados utilizado é embarcado (Banco H2);
     - Capaz de Ler, Gravar e Alterar Estúdios, Produtores e Filmes;
     - Capaz de obter o produtores com menor e maior intervalo entre dois prêmios consecutivos; 
     - Capaz na sua inicialização ler um arquivo CSV dos filmes e inserir os dados no Banco H2;
-    - Contem tratamento e exceções;
 
 ## Teste online
 
