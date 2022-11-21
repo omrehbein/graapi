@@ -13,7 +13,7 @@ Projeto Golden Raspberry Awards API foi desenvolvido para mostrar e testar habil
 
 ## Acessar API online
 
-- O projeto foi disponibilizado online e a API pode ser testado através do documentação no endereço [https://app-graapi.herokuapp.com/swagger-ui.html](https://app-graapi.herokuapp.com/swagger-ui.html)
+- O projeto foi disponibilizado online e a API pode ser testado através do documentação no endereço [https://app-graapi.herokuapp.com/swagger-ui.html](https://app-graapi.herokuapp.com/swagger-ui.html?docExpansion=list)
 
 ## Instalação Local
 
