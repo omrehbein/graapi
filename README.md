@@ -6,9 +6,9 @@ O projeto:
     - O web service RESTful implementa o nível 2 de maturidade de Richardson;
     - Implementa testes de integração do controller garantindo que os dados obtidos estão de acordo com os dados fornecidos;
     - O banco de dados utilizado é embarcado (Banco H2);
-    - O App é capaz de Ler, Gravar e Alterar Estúdios, Produtores e Filmes;
-    - O App é capaz de obter o produtores com menor e maior intervalo entre dois prêmios consecutivos; 
-    - O App é capaz na sua inicialização ler um arquivo CSV dos filmes e inserir os dados no Banco H2;
+    - É apaz de Ler, Gravar e Alterar Estúdios, Produtores e Filmes;
+    - É capaz de obter o produtores com menor e maior intervalo entre dois prêmios consecutivos; 
+    - É capaz na sua inicialização ler um arquivo CSV dos filmes e inserir os dados no Banco H2;
     - Contem tratamento e exceções;
 
 ## Teste online
@@ -21,7 +21,7 @@ O projeto:
 - Necessário ter instalado e configurado o [JAVA 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html);
 - - Na raiz do projeto execute:
 ```bash
-mvn clean package
+.\mvnw clean package
 ```
 - O Maven irá baixar as bibliotecas necessárias e gerar o executável na pasta target do projeto, basta executar o comando:
 ```bash
