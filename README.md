@@ -28,7 +28,7 @@ O projeto:
 ```
 - O Maven irá baixar as bibliotecas necessárias e gerar o executável na pasta target do projeto, basta executar o comando:
 ```bash
-.\mvn spring-boot:run
+.\mvnw spring-boot:run
 ```
 
 - Testes Unitários, na raiz do projeto execute:
