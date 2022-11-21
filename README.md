@@ -6,9 +6,9 @@ O projeto:
     - O web service RESTful implementa o nível 2 de maturidade de Richardson;
     - Implementa testes de integração do controller garantindo que os dados obtidos estão de acordo com os dados fornecidos;
     - O banco de dados utilizado é embarcado (Banco H2);
-    - É apaz de Ler, Gravar e Alterar Estúdios, Produtores e Filmes;
-    - É capaz de obter o produtores com menor e maior intervalo entre dois prêmios consecutivos; 
-    - É capaz na sua inicialização ler um arquivo CSV dos filmes e inserir os dados no Banco H2;
+    - Capaz de Ler, Gravar e Alterar Estúdios, Produtores e Filmes;
+    - Capaz de obter o produtores com menor e maior intervalo entre dois prêmios consecutivos; 
+    - Capaz na sua inicialização ler um arquivo CSV dos filmes e inserir os dados no Banco H2;
     - Contem tratamento e exceções;
 
 ## Teste online
