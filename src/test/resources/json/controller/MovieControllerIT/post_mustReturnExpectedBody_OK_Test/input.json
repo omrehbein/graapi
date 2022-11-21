@@ -1,0 +1,9 @@
+{
+  "productionYear": 1980,
+  "title": "The Developer Movie",
+  "winner": false,
+  "studios": ["Associated Film Distribution"],
+  "producers": [
+    "Allan Carr"
+  ]
+}
