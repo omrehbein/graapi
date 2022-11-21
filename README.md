@@ -19,13 +19,16 @@ O projeto:
 
 - Necessário ter instalado e configurado o [Apache Maven](https://maven.apache.org/);
 - Necessário ter instalado e configurado o [JAVA 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html);
-- - Na raiz do projeto execute:
+
+## Executar a aplicação
+
+- Na raiz do projeto execute:
 ```bash
 .\mvnw clean package
 ```
 - O Maven irá baixar as bibliotecas necessárias e gerar o executável na pasta target do projeto, basta executar o comando:
 ```bash
-java -jar .\target\graapi-0.0.1-SNAPSHOT.jar
+.\mvn spring-boot:run
 ```
 
 - Testes Unitários, na raiz do projeto execute:
