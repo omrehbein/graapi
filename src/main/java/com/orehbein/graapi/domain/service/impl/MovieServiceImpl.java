@@ -73,7 +73,7 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Object update(Long id, Integer year, String title, List<String> studioNames, List<String> producerNames, boolean winner) {
+    public MovieEntity update(Long id, Integer year, String title, List<String> studioNames, List<String> producerNames, boolean winner) {
         final List<StudioEntity> studioEntitys = studioNames.stream().map(name -> this.studioRepository.findByName(name).orElseThrow(() -> new StudioNotFoundException(String.format(MSG_STUDIO_NOT_FOUND_BY_NAME, name)))).toList();
         final List<ProducerEntity> producerEntitys = producerNames.stream().map(name -> this.producerRepository.findByName(name).orElseThrow(() -> new ProducerNotFoundException(String.format(MSG_PRODUCER_NOT_FOUND_BY_NAME, name)))).toList();
 

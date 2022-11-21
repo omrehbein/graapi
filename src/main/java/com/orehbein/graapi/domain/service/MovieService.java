@@ -13,12 +13,11 @@ public interface MovieService {
 
     MovieEntity create(Integer year, String title, List<String> studioNames, List<String> producerNames, boolean winner);
 
-    Object update(Long id, Integer year, String title, List<String> studioNames, List<String> producerNames, boolean winner);
+    MovieEntity update(Long id, Integer year, String title, List<String> studioNames, List<String> producerNames, boolean winner);
 
     List<MovieEntity> findAll();
 
     MovieEntity findById(Long id);
-
 
     void delete(Long id);
 }
