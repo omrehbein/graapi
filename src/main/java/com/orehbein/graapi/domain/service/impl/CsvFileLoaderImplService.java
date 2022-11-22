@@ -45,15 +45,20 @@ public class CsvFileLoaderImplService {
     @Transactional
     private void init(){
         final Reader reader = new InputStreamReader( this.movielistCsvInputStream(this.localFileConfig) );
-        final List<CsvRecordDto> csvRecords = new CsvToBeanBuilder<CsvRecordDto>(reader)
-            .withSeparator(SEPARATOR)
-                .withType(CsvRecordDto.class)
-                    .build().parse();
+        final List<CsvRecordDto> csvRecords = this.getCsvRecords(reader);
 
         this.studioService.create(this.extractStudioNames(csvRecords));
         this.producerService.create(this.extractProducerNames(csvRecords));
 
         this.createMovies(csvRecords);
+    }
+
+    private static List<CsvRecordDto> getCsvRecords(Reader reader) {
+        final List<CsvRecordDto> csvRecords = new CsvToBeanBuilder<CsvRecordDto>(reader)
+            .withSeparator(SEPARATOR)
+                .withType(CsvRecordDto.class)
+                    .build().parse();
+        return csvRecords;
     }
 
     private void createMovies(List<CsvRecordDto> csvRecords) {
@@ -103,8 +108,6 @@ public class CsvFileLoaderImplService {
                     .sorted()
                         .toList();
     }
-
-
 
     private InputStream movielistCsvInputStream(RessorceFileProperties localFileConfig)  {
         try{
