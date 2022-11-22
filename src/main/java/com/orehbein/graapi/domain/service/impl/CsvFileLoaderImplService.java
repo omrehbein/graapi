@@ -50,12 +50,13 @@ public class CsvFileLoaderImplService {
                 .withType(CsvRecordDto.class)
                     .build().parse();
 
-        final List<String> studioNames = this.extractStudioNames(csvRecords);
-        final List<String> producerNames = this.extractProducerNames(csvRecords);
+        this.studioService.create(this.extractStudioNames(csvRecords));
+        this.producerService.create(this.extractProducerNames(csvRecords));
 
-        this.studioService.create(studioNames);
-        this.producerService.create(producerNames);
+        this.createMovies(csvRecords);
+    }
 
+    private void createMovies(List<CsvRecordDto> csvRecords) {
         for (CsvRecordDto csvRecordDto : csvRecords){
             this.movieService.create(
                 csvRecordDto.getYear(),
@@ -65,7 +66,6 @@ public class CsvFileLoaderImplService {
                 csvRecordDto.getWinner().equalsIgnoreCase(WINNER_REPRESENTATION)
             );
         }
-
     }
 
     private List<String> extractStudioNames(List<CsvRecordDto> csvRecords) {
