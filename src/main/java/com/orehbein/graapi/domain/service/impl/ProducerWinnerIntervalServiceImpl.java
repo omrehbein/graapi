@@ -34,24 +34,36 @@ public class ProducerWinnerIntervalServiceImpl implements ProducerWinnerInterval
         }
         for (ProducerEntity producerEntity : movieEntity.getProducers()) {
             final List<MovieEntity> movieEntitys = this.movieRepository.findAllByWinnerAndProducersOrderByProductionYear(true,producerEntity);
-            final List<ProducerWinnerIntervalEntity> producerWinnerIntervalEntitys = this.producerWinnerIntervalRepository.findAllByProducer(producerEntity);
-            this.producerWinnerIntervalRepository.deleteAll(producerWinnerIntervalEntitys);
-
+            this.deleteOldProducerWinnerIntervals(producerEntity);
             MovieEntity previousMovieEntity = null;
             for (MovieEntity followingMovieEntity : movieEntitys){
-                if (previousMovieEntity != null){
-                    final ProducerWinnerIntervalEntity producerWinnerIntervalEntity = new ProducerWinnerIntervalEntity();
-                    producerWinnerIntervalEntity.setProducer(producerEntity);
-                    producerWinnerIntervalEntity.setPreviousMovie(previousMovieEntity);
-                    producerWinnerIntervalEntity.setFollowingMovie(followingMovieEntity);
-                    producerWinnerIntervalEntity.setIntervalYears(followingMovieEntity.getProductionYear() - previousMovieEntity.getProductionYear());
-                    this.producerWinnerIntervalRepository.save(producerWinnerIntervalEntity);
-                }
-
+                this.createProducerWinnerInterval(producerEntity, previousMovieEntity, followingMovieEntity);
                 previousMovieEntity = followingMovieEntity;
             }
 
         }
+    }
+
+    private void deleteOldProducerWinnerIntervals(ProducerEntity producerEntity) {
+        final List<ProducerWinnerIntervalEntity> producerWinnerIntervalEntitys = this.producerWinnerIntervalRepository.findAllByProducer(producerEntity);
+        this.producerWinnerIntervalRepository.deleteAll(producerWinnerIntervalEntitys);
+    }
+
+    private void createProducerWinnerInterval(ProducerEntity producerEntity, MovieEntity previousMovieEntity, MovieEntity followingMovieEntity) {
+        if (previousMovieEntity == null){
+            return;
+        }
+
+        this.producerWinnerIntervalRepository.save(this.getProducerWinnerIntervalEntity(producerEntity, previousMovieEntity, followingMovieEntity));
+    }
+
+    private static ProducerWinnerIntervalEntity getProducerWinnerIntervalEntity(ProducerEntity producerEntity, MovieEntity previousMovieEntity, MovieEntity followingMovieEntity) {
+        final ProducerWinnerIntervalEntity producerWinnerIntervalEntity = new ProducerWinnerIntervalEntity();
+        producerWinnerIntervalEntity.setProducer(producerEntity);
+        producerWinnerIntervalEntity.setPreviousMovie(previousMovieEntity);
+        producerWinnerIntervalEntity.setFollowingMovie(followingMovieEntity);
+        producerWinnerIntervalEntity.setIntervalYears(followingMovieEntity.getProductionYear() - previousMovieEntity.getProductionYear());
+        return producerWinnerIntervalEntity;
     }
 
     @Override
