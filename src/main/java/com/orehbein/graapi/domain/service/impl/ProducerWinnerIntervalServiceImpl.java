@@ -33,14 +33,17 @@ public class ProducerWinnerIntervalServiceImpl implements ProducerWinnerInterval
             return;
         }
         for (ProducerEntity producerEntity : movieEntity.getProducers()) {
-            final List<MovieEntity> movieEntitys = this.movieRepository.findAllByWinnerAndProducersOrderByProductionYear(true,producerEntity);
-            this.deleteOldProducerWinnerIntervals(producerEntity);
-            MovieEntity previousMovieEntity = null;
-            for (MovieEntity followingMovieEntity : movieEntitys){
-                this.createProducerWinnerInterval(producerEntity, previousMovieEntity, followingMovieEntity);
-                previousMovieEntity = followingMovieEntity;
-            }
+            this.recreateProducerWinnerIntervalsByProducer(producerEntity);
+        }
+    }
 
+    private void recreateProducerWinnerIntervalsByProducer(ProducerEntity producerEntity) {
+        final List<MovieEntity> movieEntitys = this.movieRepository.findAllByWinnerAndProducersOrderByProductionYear(true, producerEntity);
+        this.deleteOldProducerWinnerIntervals(producerEntity);
+        MovieEntity previousMovieEntity = null;
+        for (MovieEntity followingMovieEntity : movieEntitys){
+            this.createProducerWinnerInterval(producerEntity, previousMovieEntity, followingMovieEntity);
+            previousMovieEntity = followingMovieEntity;
         }
     }
 
